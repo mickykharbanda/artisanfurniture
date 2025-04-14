@@ -599,44 +599,54 @@ passwordIcon.classList.add('ri-eye-line');
         fullscreenBtn: document.getElementById('fullscreen-btn')
     };
 
-    // Add click handlers for PDF viewing
-    viewerElements.viewPdfButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const category = this.getAttribute('data-category');
-            const categoryName = getCategoryDisplayName(category);
-            viewerElements.modalTitle.textContent = `${categoryName} Catalog`;
-            if (pdfDatabase[category]) {
-                viewerElements.pdfViewer.innerHTML = `<iframe src="${pdfDatabase[category]}" class="w-full h-full border-0"></iframe>`;
-                viewerElements.fullscreenBtn.classList.remove('hidden');
+    // Initialize PDF viewer functionality
+    function initializePdfViewer() {
+        // Handle PDF view button clicks
+        viewerElements.viewPdfButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                const categoryName = getCategoryDisplayName(category);
+                viewerElements.modalTitle.textContent = `${categoryName} Catalog`;
+                if (pdfDatabase[category]) {
+                    viewerElements.pdfViewer.innerHTML = `<iframe src="${pdfDatabase[category]}" class="w-full h-full border-0"></iframe>`;
+                    viewerElements.fullscreenBtn.classList.remove('hidden');
 
-                // Handle fullscreen
-                viewerElements.fullscreenBtn.onclick = function() {
-                    const iframe = viewerElements.pdfViewer.querySelector('iframe');
-                    if (iframe.requestFullscreen) {
-                        iframe.requestFullscreen();
-                    } else if (iframe.webkitRequestFullscreen) {
-                        iframe.webkitRequestFullscreen();
-                    } else if (iframe.msRequestFullscreen) {
-                        iframe.msRequestFullscreen();
-                    }
-                };
-            } else {
-                viewerElements.pdfViewer.innerHTML = '<p class="text-gray-500">No PDF available for this category yet.</p>';
-                viewerElements.fullscreenBtn.classList.add('hidden');
-            }
-            pdfModal.classList.remove('hidden');
+                    // Handle fullscreen
+                    viewerElements.fullscreenBtn.onclick = function() {
+                        const iframe = viewerElements.pdfViewer.querySelector('iframe');
+                        if (iframe) {
+                            if (iframe.requestFullscreen) {
+                                iframe.requestFullscreen();
+                            } else if (iframe.webkitRequestFullscreen) {
+                                iframe.webkitRequestFullscreen();
+                            } else if (iframe.msRequestFullscreen) {
+                                iframe.msRequestFullscreen();
+                            }
+                        }
+                    };
+                } else {
+                    viewerElements.pdfViewer.innerHTML = '<p class="text-gray-500">No PDF available for this category yet.</p>';
+                    viewerElements.fullscreenBtn.classList.add('hidden');
+                }
+                viewerElements.pdfModal.classList.remove('hidden');
+            });
         });
-    });
-    closeModal.addEventListener('click', function() {
-        pdfModal.classList.add('hidden');
-    });
 
-    // Close modal when clicking outside
-    pdfModal.addEventListener('click', function(e) {
-        if (e.target === pdfModal) {
-            pdfModal.classList.add('hidden');
-        }
-    });
+        // Handle modal closing
+        viewerElements.closeModal.addEventListener('click', function() {
+            viewerElements.pdfModal.classList.add('hidden');
+        });
+
+        // Close modal when clicking outside
+        viewerElements.pdfModal.addEventListener('click', function(e) {
+            if (e.target === viewerElements.pdfModal) {
+                viewerElements.pdfModal.classList.add('hidden');
+            }
+        });
+    }
+
+    // Initialize PDF viewer
+    initializePdfViewer();
 
     // PDF Upload Handling
     const pdfUploads = document.querySelectorAll('.pdf-upload');
@@ -679,21 +689,27 @@ passwordIcon.classList.add('ri-eye-line');
                 await new Promise((resolve, reject) => {
                     reader.onload = async () => {
                         try {
-                            const response = await fetch(pdfStorage.getPdfPath(category), {
-                                method: 'PUT',
-                                body: reader.result
-                            });
+                            // Save the file locally first
+                            const localPath = `pdfs/${category}.pdf`;
+                            const blob = new Blob([reader.result], { type: 'application/pdf' });
+                            const downloadUrl = URL.createObjectURL(blob);
+                            
+                            // Create a download link
+                            const downloadLink = document.createElement('a');
+                            downloadLink.href = downloadUrl;
+                            downloadLink.download = `${category}.pdf`;
+                            document.body.appendChild(downloadLink);
+                            downloadLink.click();
+                            document.body.removeChild(downloadLink);
+                            URL.revokeObjectURL(downloadUrl);
 
-                            if (response.ok) {
-                                pdfDatabase[category] = pdfStorage.getPdfPath(category);
-                                statusElement.textContent = 'Upload successful!';
-                                statusElement.classList.remove('text-blue-500');
-                                statusElement.classList.add('text-green-500');
-                                showNotification('success', 'Upload Complete', `${getCategoryDisplayName(category)} catalog has been updated successfully.`);
-                                resolve();
-                            } else {
-                                reject(new Error('Failed to save file'));
-                            }
+                            // Update the database
+                            pdfDatabase[category] = pdfStorage.getPdfPath(category);
+                            statusElement.textContent = 'Upload successful! Please commit the PDF file to GitHub.';
+                            statusElement.classList.remove('text-blue-500');
+                            statusElement.classList.add('text-green-500');
+                            showNotification('success', 'Upload Complete', `${getCategoryDisplayName(category)} catalog has been downloaded. Please commit it to GitHub.`);
+                            resolve();
                         } catch (error) {
                             reject(error);
                         }
@@ -720,7 +736,8 @@ passwordIcon.classList.add('ri-eye-line');
     // Initialize PDF storage system
     const pdfStorage = {
         getPdfPath: function(category) {
-            return `data/${category}.pdf`;
+            // Use GitHub repository URL for PDF storage
+            return `https://raw.githubusercontent.com/mickykharbanda/artisanfurniture/main/pdfs/${category}.pdf`;
         }
     };
 
