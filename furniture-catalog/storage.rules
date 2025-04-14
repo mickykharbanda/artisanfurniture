@@ -1,0 +1,18 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Admin function to check if user has admin claim
+    function isAdmin() {
+      return request.auth.token.admin == true;
+    }
+
+    // Allow admin to write to any path
+    match /catalogs/{category}/{fileName} {
+      // Allow authenticated clients to read PDFs
+      allow read: if request.auth != null;
+      // Only admin can write/update PDFs
+      allow write: if isAdmin();
+    }
+  }
+}

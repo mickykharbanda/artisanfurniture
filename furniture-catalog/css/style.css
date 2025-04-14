@@ -1,0 +1,451 @@
+/* Global Styles */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #34495e;
+    --accent-color: #3498db;
+    --success-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --text-color: #2c3e50;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Login Page */
+.login-container {
+    background: white;
+    padding: clamp(20px, 5vw, 40px);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    width: min(90%, 400px);
+    transition: transform 0.3s ease;
+}
+
+.login-container:hover {
+    transform: translateY(-5px);
+}
+
+.logo {
+    width: min(200px, 80%);
+    height: auto;
+    margin-bottom: clamp(20px, 4vw, 30px);
+}
+
+.small-logo {
+    height: 40px;
+    width: auto;
+}
+
+.input-group {
+    position: relative;
+    margin: 15px 0;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 40px;
+    border: 2px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: clamp(14px, 2vw, 16px);
+    transition: border-color 0.3s ease;
+    background: #fff;
+    height: 44px;
+    line-height: normal;
+}
+
+.input-group input:focus {
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+.input-group input:focus ~ .input-icon {
+    color: var(--accent-color);
+}
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    outline: none;
+    pointer-events: auto;
+}
+
+.input-icon.left-icon {
+    left: 0;
+    padding-left: 12px;
+}
+
+.input-icon.right-icon {
+    right: 0;
+    padding-right: 12px;
+    cursor: pointer;
+}
+
+.input-icon:hover {
+    color: var(--accent-color);
+    background: rgba(52, 152, 219, 0.1);
+}
+
+.toggle-password {
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Fix for mobile devices */
+@media (max-width: 768px) {
+    .input-icon {
+        padding: 12px;
+    }
+}
+
+/* Touch-friendly adjustments */
+@media (hover: none) {
+    .input-icon {
+        padding: 10px;
+        margin: -10px;
+    }
+    
+    button {
+        min-height: 44px;
+    }
+    
+    input {
+        min-height: 44px;
+    }
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: clamp(12px, 2.5vw, 16px);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: clamp(14px, 2vw, 16px);
+    width: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+button i {
+    font-size: 1.2em;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.login-btn {
+    margin-top: 20px;
+    background-color: var(--accent-color);
+    font-weight: 500;
+}
+
+.login-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Loading state for button */
+button:disabled {
+    background-color: var(--secondary-color);
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Catalog Page */
+.header {
+    background: white;
+    padding: clamp(10px, 2vw, 20px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--box-shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logout-btn {
+    background-color: var(--danger-color);
+    padding: clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px);
+    font-size: clamp(14px, 2vw, 16px);
+    border-radius: var(--border-radius);
+    width: auto;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+.catalog-container {
+    padding: clamp(15px, 3vw, 30px);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: clamp(10px, 2vw, 20px);
+    margin-bottom: clamp(20px, 4vw, 40px);
+}
+
+.category-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: clamp(20px, 4vw, 30px);
+    background-color: white;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+    height: 100%;
+    width: 100%;
+    min-height: 140px;
+}
+
+.category-btn i {
+    font-size: clamp(32px, 6vw, 48px);
+    transition: transform 0.3s ease;
+    height: 1em;
+    width: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-btn span {
+    font-size: clamp(14px, 2.5vw, 18px);
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.category-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.category-btn:hover i {
+    transform: scale(1.1);
+}
+
+.category-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.catalog-viewer {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(15px, 3vw, 30px);
+    background: white;
+    padding: clamp(15px, 3vw, 30px);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    min-height: calc(100vh - 200px);
+    overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+    .catalog-viewer {
+        flex-direction: row;
+    }
+}
+
+#pdfViewer {
+    flex: 1;
+    min-height: clamp(400px, 70vh, 800px);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    margin-bottom: 0;
+    position: relative;
+}
+
+.pdf-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.pdf-container embed {
+    flex: 1;
+    border: none;
+    width: 100%;
+    height: 100%;
+}
+
+.pdf-info {
+    padding: 10px;
+    background: #f8f9fa;
+    border-top: 1px solid #ddd;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.pdf-info p {
+    margin: 5px 0;
+}
+
+.no-catalog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #666;
+    font-size: 1.2em;
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+.options-panel {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(15px, 3vw, 25px);
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .options-panel {
+        width: 300px;
+        min-width: 300px;
+    }
+}
+
+.options-panel h3 {
+    margin-bottom: clamp(10px, 2vw, 15px);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: clamp(5px, 1vw, 8px);
+    font-size: clamp(16px, 2.5vw, 18px);
+    color: var(--primary-color);
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+    .category-btn {
+        min-height: 100px;
+    }
+
+    .logout-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .options-panel {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Admin Panel */
+.admin-container {
+    min-height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.upload-section {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.upload-section h2 {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.upload-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.upload-box {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.upload-box h3 {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.drop-zone {
+    border: 2px dashed #ccc;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    margin-bottom: 15px;
+}
+
+.drop-zone:hover {
+    border-color: #000;
+}
+
+.last-updated {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+}

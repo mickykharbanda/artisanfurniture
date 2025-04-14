@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SHREENATH ARCHITECTS INTERIORS - Catalog</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <div class="header">
+        <img src="assets/logo.png" alt="SHREENATH ARCHITECTS INTERIORS" class="small-logo">
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+    </div>
+    
+    <div class="catalog-container">
+        <div class="categories">
+            <button class="category-btn" data-category="sofa">
+                <i class="fas fa-couch"></i>
+                <span>Sofa</span>
+            </button>
+            <button class="category-btn" data-category="bed">
+                <i class="fas fa-bed"></i>
+                <span>Bed</span>
+            </button>
+            <button class="category-btn" data-category="side-table">
+                <i class="fas fa-table"></i>
+                <span>Side Table</span>
+            </button>
+            <button class="category-btn" data-category="center-table">
+                <i class="fas fa-border-all"></i>
+                <span>Center Table</span>
+            </button>
+            <button class="category-btn" data-category="night-table">
+                <i class="fas fa-moon"></i>
+                <span>Night Table</span>
+            </button>
+            <button class="category-btn" data-category="artifacts">
+                <i class="fas fa-shapes"></i>
+                <span>Artifacts</span>
+            </button>
+        </div>
+
+        <div class="catalog-viewer">
+            <div id="pdfViewer"></div>
+            
+            <div class="options-panel">
+                <div class="variants">
+                    <h3>Available Variants</h3>
+                    <div id="variantsList"></div>
+                </div>
+                
+                <div class="recommendations">
+                    <h3>Recommended Products</h3>
+                    <div id="recommendationsList"></div>
+                </div>
+                
+                <div class="alternates">
+                    <h3>Alternative Options</h3>
+                    <div id="alternatesList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/catalog.js"></script>
+</body>
+</html>

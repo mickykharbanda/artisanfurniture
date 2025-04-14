@@ -1,0 +1,38 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Admin function to check if user has admin claim
+    function isAdmin() {
+      return request.auth.token.admin == true;
+    }
+
+    // Client function to check if user is authenticated and matches clientId
+    function isValidClient(clientId) {
+      return request.auth != null && request.auth.uid == clientId;
+    }
+
+    // Clients collection - only admin can write, anyone can read
+    match /clients/{clientId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Admin collection - allow admin credentials to be created/updated
+    match /admin/credentials {
+      allow read, write: if true;
+    }
+    
+    // Other admin docs - only admin can write
+    match /admin/{docId} {
+      allow read: if true;
+      allow write: if isAdmin() && docId != 'credentials';
+    }
+
+    // Catalogs collection - admin can write, authenticated clients can read
+    match /catalogs/{category} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+  }
+}

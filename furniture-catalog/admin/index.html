@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - SHREENATH ARCHITECTS INTERIORS</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="header">
+            <img src="../assets/logo.png" alt="SHREENATH ARCHITECTS INTERIORS" class="small-logo">
+            <button id="logoutBtn" class="logout-btn">Logout</button>
+        </div>
+
+        <div class="upload-section">
+            <h2>Catalog Management</h2>
+            
+            <div class="upload-grid">
+                <div class="upload-box" data-category="sofa">
+                    <h3>Sofa Catalog</h3>
+                    <div class="drop-zone">Drop PDF here or click to upload</div>
+                    <input type="file" accept="application/pdf" class="file-input" hidden>
+                    <p class="last-updated"></p>
+                </div>
+
+                <div class="upload-box" data-category="bed">
+                    <h3>Bed Catalog</h3>
+                    <div class="drop-zone">Drop PDF here or click to upload</div>
+                    <input type="file" accept="application/pdf" class="file-input" hidden>
+                    <p class="last-updated"></p>
+                </div>
+
+                <div class="upload-box" data-category="side-table">
+                    <h3>Side Table Catalog</h3>
+                    <div class="drop-zone">Drop PDF here or click to upload</div>
+                    <input type="file" accept="application/pdf" class="file-input" hidden>
+                    <p class="last-updated"></p>
+                </div>
+
+                <div class="upload-box" data-category="center-table">
+                    <h3>Center Table Catalog</h3>
+                    <div class="drop-zone">Drop PDF here or click to upload</div>
+                    <input type="file" accept="application/pdf" class="file-input" hidden>
+                    <p class="last-updated"></p>
+                </div>
+
+                <div class="upload-box" data-category="night-table">
+                    <h3>Night Table Catalog</h3>
+                    <div class="drop-zone">Drop PDF here or click to upload</div>
+                    <input type="file" accept="application/pdf" class="file-input" hidden>
+                    <p class="last-updated"></p>
+                </div>
+
+                <div class="upload-box" data-category="artifacts">
+                    <h3>Artifacts Catalog</h3>
+                    <div class="drop-zone">Drop PDF here or click to upload</div>
+                    <input type="file" accept="application/pdf" class="file-input" hidden>
+                    <p class="last-updated"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>

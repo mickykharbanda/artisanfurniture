@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artisan Furniture & Homedecor</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#1a1a1a',secondary:'#4a4a4a'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background-color: #ffffff;
+}
+.login-container {
+background-image: url('https://readdy.ai/api/search-image?query=elegant%2520furniture%2520showroom%2520with%2520minimal%2520design%252C%2520soft%2520lighting%252C%2520white%2520background%252C%2520premium%2520furniture%2520pieces%2520arranged%2520tastefully%252C%2520modern%2520interior%2520design%252C%2520high-end%2520furniture%2520store%252C%2520clean%2520aesthetic%252C%2520professional%2520photography%252C%2520no%2520people&width=1200&height=800&seq=12345&orientation=landscape');
+background-size: cover;
+background-position: center;
+}
+.login-form {
+backdrop-filter: blur(8px);
+background-color: rgba(255, 255, 255, 0.85);
+}
+.dashboard-container {
+min-height: calc(100vh - 80px);
+}
+.category-button {
+transition: all 0.3s ease;
+}
+.category-button:hover {
+transform: translateY(-5px);
+box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.upload-button {
+transition: all 0.2s ease;
+}
+.upload-button:hover {
+background-color: #333333;
+}
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+display: none;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+</style>
+</head>
+<body>
+<div id="login-page" class="flex flex-col min-h-screen">
+<div class="login-container flex flex-col items-center justify-center min-h-screen p-4">
+<div class="login-form w-full max-w-md p-8 rounded-lg shadow-lg">
+<div class="flex justify-center mb-8">
+<img src="https://static.readdy.ai/image/0762376abfdce9b636f9124b0667f121/efe4da1d0fd2c07acbcb9234ecdb7062.png" alt="Artisan Furniture & Homedecor" class="h-24 object-contain">
+</div>
+<h2 class="text-2xl font-semibold text-center text-primary mb-6">Client Portal</h2>
+<form id="login-form" class="space-y-6">
+<div>
+<label for="username" class="block text-sm font-medium text-gray-700 mb-1">Customer ID</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none w-10 h-10">
+<i class="ri-user-line text-gray-400"></i>
+</div>
+<input type="text" id="username" name="username" class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-button focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Enter your ID" required>
+</div>
+</div>
+<div>
+<label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none w-10 h-10">
+<i class="ri-lock-line text-gray-400"></i>
+</div>
+<input type="password" id="password" name="password" class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-button focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Enter your password" required>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer w-10 h-10" id="toggle-password">
+<i class="ri-eye-line text-gray-400" id="password-icon"></i>
+</div>
+</div>
+</div>
+<div>
+<button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-button shadow-sm text-sm font-medium text-white bg-primary hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary !rounded-button whitespace-nowrap">
+Sign In
+</button>
+</div>
+</form>
+<div class="mt-4 text-center">
+<p class="text-sm text-gray-600">
+Need assistance? Contact your account manager
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="dashboard-page" class="hidden flex flex-col min-h-screen">
+<header class="bg-white shadow-md">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex justify-between items-center">
+<div class="flex items-center">
+<img src="https://static.readdy.ai/image/0762376abfdce9b636f9124b0667f121/efe4da1d0fd2c07acbcb9234ecdb7062.png" alt="Artisan Furniture & Homedecor" class="h-12 object-contain">
+</div>
+<div class="flex items-center space-x-4">
+<span id="user-type" class="text-sm font-medium text-gray-700"></span>
+<span id="user-id" class="text-sm font-medium text-primary"></span>
+<button id="logout-button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-button text-white bg-primary hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary !rounded-button whitespace-nowrap">
+<i class="ri-logout-box-line mr-2"></i> Logout
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="dashboard-container bg-gray-50 flex-grow">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<h1 class="text-2xl font-semibold text-primary mb-8">Product Catalogs</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Sofa -->
+<div class="category-button bg-white rounded-lg shadow-md overflow-hidden">
+<div class="p-6">
+<div class="flex justify-center mb-4">
+<div class="w-16 h-16 flex items-center justify-center">
+<i class="ri-sofa-line text-primary ri-3x"></i>
+</div>
+</div>
+<h3 class="text-lg font-medium text-center text-primary">Sofa</h3>
+<div class="mt-4 flex justify-center">
+<button class="view-pdf-button inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-button text-white bg-primary hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary !rounded-button whitespace-nowrap" data-category="sofa">
+<i class="ri-file-pdf-line mr-2"></i> View Catalog
+</button>
+</div>
+<div class="upload-container mt-4 hidden">
+<div class="border-t border-gray-200 pt-4">
+<form class="upload-form flex flex-col items-center" data-category="sofa">
+<label for="sofa-upload" class="upload-button w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-button text-primary bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer !rounded-button whitespace-nowrap">
+<i class="ri-upload-2-line mr-2"></i> Upload New PDF
+</label>
+<input id="sofa-upload" type="file" accept="application/pdf" class="hidden pdf-upload" data-category="sofa">
+<p class="upload-status text-xs text-gray-500 mt-2"></p>
+</form>
+</div>
+</div>
+</div>
+</div>
+<!-- Bed -->
+<div class="category-button bg-white rounded-lg shadow-md overflow-hidden">
+<div class="p-6">
+<div class="flex justify-center mb-4">
+<div class="w-16 h-16 flex items-center justify-center">
+<i class="ri-hotel-bed-line text-primary ri-3x"></i>
+</div>
+</div>
+<h3 class="text-lg font-medium text-center text-primary">Bed</h3>
+<div class="mt-4 flex justify-center">
+<button class="view-pdf-button inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-button text-white bg-primary hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary !rounded-button whitespace-nowrap" data-category="bed">
+<i class="ri-file-pdf-line mr-2"></i> View Catalog
+</button>
+</div>
+<div class="upload-container mt-4 hidden">
+<div class="border-t border-gray-200 pt-4">
+<form class="upload-form flex flex-col items-center" data-category="bed">
+<label for="bed-upload" class="upload-button w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-button text-primary bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer !rounded-button whitespace-nowrap">
+<i class="ri-upload-2-line mr-2"></i> Upload New PDF
+</label>
+<input id="bed-upload" type="file" accept="application/pdf" class="hidden pdf-upload" data-category="bed">
+<p class="upload-status text-xs text-gray-500 mt-2"></p>
+</form>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Table -->
+<div class="category-button bg-white rounded-lg shadow-md overflow-hidden">
+<div class="p-6">
+<div class="flex justify-center mb-4">
+<div class="w-16 h-16 flex items-center justify-center">
+<i class="ri-table-line text-primary ri-3x"></i>
+</div>
+</div>
+<h3 class="text-lg font-medium text-center text-primary">Side Table</h3>
+<div class="mt-4 flex justify-center">
+<button class="view-pdf-button inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-button text-white bg-primary hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary !rounded-button whitespace-nowrap" data-category="side-table">
+<i class="ri-file-pdf-line mr-2"></i> View Catalog
+</button>
+</div>
+<div class="upload-container mt-4 hidden">
+<div class="border-t border-gray-200 pt-4">
+<form class="upload-form flex flex-col items-center" data-category="side-table">
+<label for="side-table-upload" class="upload-button w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-button text-primary bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer !rounded-button whitespace-nowrap">
+<i class="ri-upload-2-line mr-2"></i> Upload New PDF
+</label>
+<input id="side-table-upload" type="file" accept="application/pdf" class="hidden pdf-upload" data-category="side-table">
+<p class="upload-status text-xs text-gray-500 mt-2"></p>
+</form>
+</div>
+</div>
+</div>
+</div>
+<!-- Center Table -->
+<div class="category-button bg-white rounded-lg shadow-md overflow-hidden">
+<div class="p-6">
+<div class="flex justify-center mb-4">
+<div class="w-16 h-16 flex items-center justify-center">
+<i class="ri-layout-bottom-line text-primary ri-3x"></i>
+</div>
+</div>
+<h3 class="text-lg font-medium text-center text-primary">Center Table</h3>
+<div class="mt-4 flex justify-center">
+<button class="view-pdf-button inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-button text-white bg-primary hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary !rounded-button whitespace-nowrap" data-category="center-table">
+<i class="ri-file-pdf-line mr-2"></i> View Catalog
+</button>
+</div>
+<div class="upload-container mt-4 hidden">
+<div class="border-t border-gray-200 pt-4">
+<form class="upload-form flex flex-col items-center" data-category="center-table">
+<label for="center-table-upload" class="upload-button w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-button text-primary bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer !rounded-button whitespace-nowrap">
+<i class="ri-upload-2-line mr-2"></i> Upload New PDF
+</label>
+<input id="center-table-upload" type="file" accept="application/pdf" class="hidden pdf-upload" data-category="center-table">
+<p class="upload-status text-xs text-gray-500 mt-2"></p>
+</form>
+</div>
+</div>
+</div>
+</div>
+<!-- Night Table -->
+<div class="category-button bg-white rounded-lg shadow-md overflow-hidden">
+<div class="p-6">
+<div class="flex justify-center mb-4">
+<div class="w-16 h-16 flex items-center justify-center">
+<div class="relative">
+<i class="ri-moon-line text-primary ri-2x absolute -top-3 left-1/2 transform -translate-x-1/2"></i>
+<i class="ri-table-line text-primary ri-3x mt-2"></i>
+</div>
+</div>
+</div>
+<h3 class="text-lg font-medium text-center text-primary">Night Table</h3>
+<div class="mt-4 flex justify-center">
+<button class="view-pdf-button inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-button text-white bg-primary hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary !rounded-button whitespace-nowrap" data-category="night-table">
+<i class="ri-file-pdf-line mr-2"></i> View Catalog
+</button>
+</div>
+<div class="upload-container mt-4 hidden">
+<div class="border-t border-gray-200 pt-4">
+<form class="upload-form flex flex-col items-center" data-category="night-table">
+<label for="night-table-upload" class="upload-button w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-button text-primary bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer !rounded-button whitespace-nowrap">
+<i class="ri-upload-2-line mr-2"></i> Upload New PDF
+</label>
+<input id="night-table-upload" type="file" accept="application/pdf" class="hidden pdf-upload" data-category="night-table">
+<p class="upload-status text-xs text-gray-500 mt-2"></p>
+</form>
+</div>
+</div>
+</div>
+</div>
+<!-- Artifacts -->
+<div class="category-button bg-white rounded-lg shadow-md overflow-hidden">
+<div class="p-6">
+<div class="flex justify-center mb-4">
+<div class="w-16 h-16 flex items-center justify-center">
+<i class="ri-vase-fill text-primary ri-3x"></i>
+</div>
+</div>
+<h3 class="text-lg font-medium text-center text-primary">Artifacts</h3>
+<div class="mt-4 flex justify-center">
+<button class="view-pdf-button inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-button text-white bg-primary hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary !rounded-button whitespace-nowrap" data-category="artifacts">
+<i class="ri-file-pdf-line mr-2"></i> View Catalog
+</button>
+</div>
+<div class="upload-container mt-4 hidden">
+<div class="border-t border-gray-200 pt-4">
+<form class="upload-form flex flex-col items-center" data-category="artifacts">
+<label for="artifacts-upload" class="upload-button w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-button text-primary bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer !rounded-button whitespace-nowrap">
+<i class="ri-upload-2-line mr-2"></i> Upload New PDF
+</label>
+<input id="artifacts-upload" type="file" accept="application/pdf" class="hidden pdf-upload" data-category="artifacts">
+<p class="upload-status text-xs text-gray-500 mt-2"></p>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-white border-t border-gray-200">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex justify-between items-center">
+<p class="text-sm text-gray-500">© 2025 Artisan Furniture & Homedecor. All rights reserved.</p>
+<p class="text-sm text-gray-500">Last updated: April 14, 2025</p>
+</div>
+</div>
+</footer>
+</div>
+<!-- PDF Viewer Modal -->
+<div id="pdf-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+<div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+<div class="flex justify-between items-center p-4 border-b border-gray-200">
+<h3 class="text-lg font-medium text-primary" id="modal-title">View Catalog</h3>
+<button id="close-modal" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+<i class="ri-close-line ri-lg"></i>
+</button>
+</div>
+<div class="flex-grow p-4 overflow-auto">
+<div id="pdf-container" class="w-full h-full min-h-[500px] bg-gray-100 flex flex-col">
+<div class="flex justify-end p-2 bg-gray-200">
+<button id="fullscreen-btn" class="px-3 py-1 bg-primary text-white rounded-button hover:bg-gray-800 focus:outline-none hidden">
+<i class="ri-fullscreen-line mr-1"></i> Fullscreen
+</button>
+</div>
+<div id="pdf-viewer" class="flex-grow flex items-center justify-center">
+<p class="text-gray-500">No PDF available. Please contact administrator.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Notification Toast -->
+<div id="notification-toast" class="fixed bottom-4 right-4 bg-white rounded-lg shadow-lg p-4 max-w-md transform transition-transform duration-300 translate-y-full opacity-0 flex items-start">
+<div class="flex-shrink-0 mr-3">
+<i id="notification-icon" class="ri-information-line text-blue-500 ri-lg"></i>
+</div>
+<div class="flex-1">
+<h3 id="notification-title" class="text-sm font-medium text-gray-900">Notification</h3>
+<p id="notification-message" class="mt-1 text-sm text-gray-500">This is a notification message.</p>
+</div>
+<button id="close-notification" class="ml-4 flex-shrink-0 text-gray-400 hover:text-gray-500 focus:outline-none">
+<i class="ri-close-line"></i>
+</button>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Initialize users array with admin
+const users = [
+{ id: 'ADMIN_Ashay', password: 'Obviousinc.xyz', type: 'admin' }
+];
+// Load client credentials from CSV file
+fetch('client_credentials_.csv')
+.then(response => response.text())
+.then(csv => {
+    const lines = csv.split('\n').slice(1); // Skip header
+    lines.forEach(line => {
+        if (line.trim()) {
+            const [id, password] = line.split(',');
+            users.push({ id: id.trim(), password: password.trim(), type: 'customer' });
+        }
+    });
+})
+.catch(error => {
+    console.error('Error loading credentials:', error);
+    showNotification('error', 'System Error', 'Failed to load user credentials.');
+});
+
+// PDF storage configuration
+const pdfStorage = {
+basePath: 'uploads/pdfs/',
+getPdfPath: function(category) {
+return this.basePath + category + '.pdf';
+},
+loadExistingPdfs: async function() {
+const categories = ['sofa', 'bed', 'side-table', 'center-table', 'night-table', 'artifacts'];
+for (const category of categories) {
+try {
+const response = await fetch(this.getPdfPath(category));
+if (response.ok) {
+pdfDatabase[category] = this.getPdfPath(category);
+}
+} catch (error) {
+console.log(`No PDF found for ${category}`);
+}
+}
+}
+};
+
+// PDF database for tracking uploaded files
+const pdfDatabase = {
+'sofa': null,
+'bed': null,
+'side-table': null,
+'center-table': null,
+'night-table': null,
+'artifacts': null
+};
+// Login form handling
+const loginForm = document.getElementById('login-form');
+const loginPage = document.getElementById('login-page');
+const dashboardPage = document.getElementById('dashboard-page');
+const userTypeElement = document.getElementById('user-type');
+const userIdElement = document.getElementById('user-id');
+const uploadContainers = document.querySelectorAll('.upload-container');
+const logoutButton = document.getElementById('logout-button');
+loginForm.addEventListener('submit', function(e) {
+e.preventDefault();
+const username = document.getElementById('username').value;
+const password = document.getElementById('password').value;
+const user = users.find(u => u.id === username && u.password === password);
+if (user) {
+// Show dashboard
+loginPage.classList.add('hidden');
+dashboardPage.classList.remove('hidden');
+// Set user info
+userTypeElement.textContent = user.type.charAt(0).toUpperCase() + user.type.slice(1);
+userIdElement.textContent = user.id;
+// Show upload containers for admin
+if (user.type === 'admin') {
+uploadContainers.forEach(container => {
+container.classList.remove('hidden');
+});
+}
+showNotification('success', 'Login Successful', `Welcome back, ${user.id}!`);
+} else {
+showNotification('error', 'Login Failed', 'Invalid username or password.');
+}
+});
+// Logout functionality
+logoutButton.addEventListener('click', function() {
+dashboardPage.classList.add('hidden');
+loginPage.classList.remove('hidden');
+document.getElementById('username').value = '';
+document.getElementById('password').value = '';
+showNotification('info', 'Logged Out', 'You have been successfully logged out.');
+});
+// Toggle password visibility
+const togglePassword = document.getElementById('toggle-password');
+const passwordInput = document.getElementById('password');
+const passwordIcon = document.getElementById('password-icon');
+togglePassword.addEventListener('click', function() {
+if (passwordInput.type === 'password') {
+passwordInput.type = 'text';
+passwordIcon.classList.remove('ri-eye-line');
+passwordIcon.classList.add('ri-eye-off-line');
+} else {
+passwordInput.type = 'password';
+passwordIcon.classList.remove('ri-eye-off-line');
+passwordIcon.classList.add('ri-eye-line');
+}
+});
+// PDF View Button Click
+const viewPdfButtons = document.querySelectorAll('.view-pdf-button');
+const pdfModal = document.getElementById('pdf-modal');
+const modalTitle = document.getElementById('modal-title');
+const pdfContainer = document.getElementById('pdf-container');
+const closeModal = document.getElementById('close-modal');
+viewPdfButtons.forEach(button => {
+button.addEventListener('click', function() {
+const category = this.getAttribute('data-category');
+const categoryName = getCategoryDisplayName(category);
+modalTitle.textContent = `${categoryName} Catalog`;
+const pdfViewer = document.getElementById('pdf-viewer');
+const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+if (pdfDatabase[category]) {
+pdfViewer.innerHTML = `<iframe src="${pdfDatabase[category]}" class="w-full h-full border-0"></iframe>`;
+fullscreenBtn.classList.remove('hidden');
+
+// Handle fullscreen
+fullscreenBtn.onclick = function() {
+const iframe = pdfViewer.querySelector('iframe');
+if (iframe.requestFullscreen) {
+iframe.requestFullscreen();
+} else if (iframe.webkitRequestFullscreen) {
+iframe.webkitRequestFullscreen();
+} else if (iframe.msRequestFullscreen) {
+iframe.msRequestFullscreen();
+}
+};
+} else {
+pdfViewer.innerHTML = '<p class="text-gray-500">No PDF available for this category yet.</p>';
+fullscreenBtn.classList.add('hidden');
+}
+pdfModal.classList.remove('hidden');
+});
+});
+closeModal.addEventListener('click', function() {
+pdfModal.classList.add('hidden');
+});
+// Close modal when clicking outside
+pdfModal.addEventListener('click', function(e) {
+if (e.target === pdfModal) {
+pdfModal.classList.add('hidden');
+}
+});
+// PDF Upload Handling
+const pdfUploads = document.querySelectorAll('.pdf-upload');
+pdfUploads.forEach(upload => {
+upload.addEventListener('change', async function(e) {
+const category = this.getAttribute('data-category');
+const file = e.target.files[0];
+const statusElement = this.closest('form').querySelector('.upload-status');
+
+if (!file) return;
+
+statusElement.textContent = 'Processing...';
+statusElement.classList.remove('text-red-500', 'text-green-500');
+statusElement.classList.add('text-blue-500');
+if (file.type !== 'application/pdf') {
+statusElement.textContent = 'Error: Only PDF files are allowed.';
+statusElement.classList.add('text-red-500');
+return;
+}
+if (file.size > 500 * 1024 * 1024) { // 500MB limit
+statusElement.textContent = 'Error: File size exceeds 500MB limit.';
+statusElement.classList.add('text-red-500');
+return;
+}
+// Save the PDF file
+const formData = new FormData();
+formData.append('file', file);
+formData.append('category', category);
+
+// Update status
+statusElement.textContent = 'Uploading...';
+statusElement.classList.remove('text-red-500');
+statusElement.classList.add('text-blue-500');
+
+try {
+const reader = new FileReader();
+await new Promise((resolve, reject) => {
+reader.onload = async () => {
+try {
+const response = await fetch(pdfStorage.getPdfPath(category), {
+method: 'PUT',
+body: reader.result
+});
+
+if (response.ok) {
+pdfDatabase[category] = pdfStorage.getPdfPath(category);
+statusElement.textContent = 'Upload successful!';
+statusElement.classList.remove('text-blue-500');
+statusElement.classList.add('text-green-500');
+showNotification('success', 'Upload Complete', `${getCategoryDisplayName(category)} catalog has been updated successfully.`);
+resolve();
+} else {
+reject(new Error('Failed to save file'));
+}
+} catch (error) {
+reject(error);
+}
+};
+reader.onerror = () => reject(new Error('Failed to read file'));
+reader.readAsArrayBuffer(file);
+});
+} catch (error) {
+console.error('Error handling file:', error);
+statusElement.textContent = 'Upload failed!';
+statusElement.classList.remove('text-blue-500');
+statusElement.classList.add('text-red-500');
+showNotification('error', 'Upload Failed', 'Failed to process the PDF file.');
+}
+
+// Clear status after 3 seconds
+setTimeout(() => {
+statusElement.textContent = '';
+e.target.value = ''; // Reset file input
+}, 3000);
+});
+});
+});
+// Notification System
+const notificationToast = document.getElementById('notification-toast');
+const notificationIcon = document.getElementById('notification-icon');
+const notificationTitle = document.getElementById('notification-title');
+const notificationMessage = document.getElementById('notification-message');
+const closeNotification = document.getElementById('close-notification');
+function showNotification(type, title, message) {
+// Set icon and color based on type
+notificationIcon.className = 'ri-lg ';
+switch (type) {
+case 'success':
+notificationIcon.classList.add('ri-checkbox-circle-line', 'text-green-500');
+break;
+case 'error':
+notificationIcon.classList.add('ri-error-warning-line', 'text-red-500');
+break;
+case 'warning':
+notificationIcon.classList.add('ri-alert-line', 'text-yellow-500');
+break;
+default:
+notificationIcon.classList.add('ri-information-line', 'text-blue-500');
+}
+notificationTitle.textContent = title;
+notificationMessage.textContent = message;
+// Show notification
+notificationToast.classList.remove('translate-y-full', 'opacity-0');
+// Auto hide after 5 seconds
+setTimeout(hideNotification, 5000);
+}
+function hideNotification() {
+notificationToast.classList.add('translate-y-full', 'opacity-0');
+}
+closeNotification.addEventListener('click', hideNotification);
+// Helper Functions
+function generateRandomPassword() {
+const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+let password = '';
+for (let i = 0; i < 8; i++) {
+password += chars.charAt(Math.floor(Math.random() * chars.length));
+}
+return password;
+}
+function getCategoryDisplayName(category) {
+switch (category) {
+case 'sofa': return 'Sofa';
+case 'bed': return 'Bed';
+case 'side-table': return 'Side Table';
+case 'center-table': return 'Center Table';
+case 'night-table': return 'Night Table';
+case 'artifacts': return 'Artifacts';
+default: return category;
+}
+}
+});
+</script>
+</body>
+</html>

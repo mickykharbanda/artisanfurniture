@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHREENATH ARCHITECTS INTERIORS - Catalog</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+    <div class="container">
+        <div class="login-container">
+            <img src="assets/logo.png" alt="SHREENATH ARCHITECTS INTERIORS" class="logo">
+            <form id="loginForm" class="login-form">
+                <div class="input-group">
+                    <input type="text" id="clientId" placeholder="Client ID" required autocomplete="username">
+                    <i class="fas fa-user-circle input-icon left-icon"></i>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+                    <i class="fas fa-lock input-icon left-icon"></i>
+                    <i class="fas fa-eye-slash input-icon right-icon toggle-password" title="Show/Hide Password"></i>
+                </div>
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    
+    <!-- Initialize Firebase -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
