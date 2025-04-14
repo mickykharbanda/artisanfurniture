@@ -336,21 +336,17 @@ document.addEventListener('DOMContentLoaded', function() {
 const users = [
 { id: 'ADMIN_Ashay', password: 'Obviousinc.xyz', type: 'admin' }
 ];
-// Load client credentials from CSV file
-fetch('client_credentials_.csv')
-.then(response => response.text())
-.then(csv => {
-    const lines = csv.split('\n').slice(1); // Skip header
-    lines.forEach(line => {
-        if (line.trim()) {
-            const [id, password] = line.split(',');
-            users.push({ id: id.trim(), password: password.trim(), type: 'customer' });
-        }
-    });
-})
-.catch(error => {
-    console.error('Error loading credentials:', error);
-    showNotification('error', 'System Error', 'Failed to load user credentials.');
+// Add client credentials
+const clientCredentials = [
+    { id: 'CL0001', password: 'YWod5omp' },
+    { id: 'CL0002', password: '8Kct6RiX' },
+    { id: 'CL0003', password: 'kXwUgN1M' },
+    { id: 'CL0004', password: 'yplpz11F' },
+    { id: 'CL0005', password: 'N3gCwCRG' }
+];
+
+clientCredentials.forEach(cred => {
+    users.push({ ...cred, type: 'customer' });
 });
 
 // PDF storage configuration
