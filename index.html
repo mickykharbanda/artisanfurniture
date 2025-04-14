@@ -332,6 +332,59 @@ Need assistance? Contact your account manager
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Helper function to show notifications
+    function showNotification(type, title, message) {
+        // Set icon and color based on type
+        notificationIcon.className = 'ri-lg ';
+        switch (type) {
+            case 'success':
+                notificationIcon.classList.add('ri-checkbox-circle-line', 'text-green-500');
+                break;
+            case 'error':
+                notificationIcon.classList.add('ri-error-warning-line', 'text-red-500');
+                break;
+            case 'warning':
+                notificationIcon.classList.add('ri-alert-line', 'text-yellow-500');
+                break;
+            default:
+                notificationIcon.classList.add('ri-information-line', 'text-blue-500');
+        }
+        notificationTitle.textContent = title;
+        notificationMessage.textContent = message;
+        // Show notification
+        notificationToast.classList.remove('translate-y-full', 'opacity-0');
+        // Auto hide after 5 seconds
+        setTimeout(hideNotification, 5000);
+    }
+
+    // Helper function to hide notifications
+    function hideNotification() {
+        notificationToast.classList.add('translate-y-full', 'opacity-0');
+    }
+
+    // Helper function to generate random passwords
+    function generateRandomPassword() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+        let password = '';
+        for (let i = 0; i < 8; i++) {
+            password += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return password;
+    }
+
+    // Helper function to get display name for categories
+    function getCategoryDisplayName(category) {
+        switch (category) {
+            case 'sofa': return 'Sofa';
+            case 'bed': return 'Bed';
+            case 'side-table': return 'Side Table';
+            case 'center-table': return 'Center Table';
+            case 'night-table': return 'Night Table';
+            case 'artifacts': return 'Artifacts';
+            default: return category;
+        }
+    }
+
     // Initialize users array and add admin
     const users = [
         { id: 'ADMIN_Ashay', password: 'Obviousinc.xyz', type: 'admin' }
@@ -350,6 +403,81 @@ document.addEventListener('DOMContentLoaded', function() {
     clientCredentials.forEach(cred => {
         users.push({ ...cred, type: 'customer' });
     });
+
+    // Get DOM elements once at the start
+    const elements = {
+        loginForm: document.getElementById('login-form'),
+        loginPage: document.getElementById('login-page'),
+        dashboardPage: document.getElementById('dashboard-page'),
+        userTypeElement: document.getElementById('user-type'),
+        userIdElement: document.getElementById('user-id'),
+        uploadContainers: document.querySelectorAll('.upload-container'),
+        logoutButton: document.getElementById('logout-button'),
+        togglePassword: document.getElementById('toggle-password'),
+        passwordInput: document.getElementById('password'),
+        passwordIcon: document.getElementById('password-icon'),
+        notificationToast: document.getElementById('notification-toast'),
+        notificationIcon: document.getElementById('notification-icon'),
+        notificationTitle: document.getElementById('notification-title'),
+        notificationMessage: document.getElementById('notification-message'),
+        closeNotification: document.getElementById('close-notification')
+    };
+
+    // Handle password visibility toggle
+    if (elements.togglePassword) {
+        elements.togglePassword.addEventListener('click', function() {
+            if (elements.passwordInput.type === 'password') {
+                elements.passwordInput.type = 'text';
+                elements.passwordIcon.classList.remove('ri-eye-line');
+                elements.passwordIcon.classList.add('ri-eye-off-line');
+            } else {
+                elements.passwordInput.type = 'password';
+                elements.passwordIcon.classList.remove('ri-eye-off-line');
+                elements.passwordIcon.classList.add('ri-eye-line');
+            }
+        });
+    }
+
+    // Handle login form submission
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            console.log('Login attempt:', { username, password });
+            console.log('Available users:', users);
+            
+            const user = users.find(u => u.id === username && u.password === password);
+            console.log('Found user:', user);
+            
+            if (user) {
+                loginPage.classList.add('hidden');
+                dashboardPage.classList.remove('hidden');
+                userTypeElement.textContent = user.type.charAt(0).toUpperCase() + user.type.slice(1);
+                userIdElement.textContent = user.id;
+                
+                if (user.type === 'admin') {
+                    uploadContainers.forEach(container => {
+                        container.classList.remove('hidden');
+                    });
+                }
+                showNotification('success', 'Login Successful', `Welcome back, ${user.id}!`);
+            } else {
+                showNotification('error', 'Login Failed', 'Invalid username or password.');
+            }
+        });
+    }
+
+    // Handle logout
+    if (elements.logoutButton) {
+        elements.logoutButton.addEventListener('click', function() {
+            elements.dashboardPage.classList.add('hidden');
+            elements.loginPage.classList.remove('hidden');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            showNotification('info', 'Logged Out', 'You have been successfully logged out.');
+        });
+    }
 
 // PDF storage configuration
 const pdfStorage = {
@@ -389,18 +517,37 @@ const userTypeElement = document.getElementById('user-type');
 const userIdElement = document.getElementById('user-id');
 const uploadContainers = document.querySelectorAll('.upload-container');
 const logoutButton = document.getElementById('logout-button');
+const togglePassword = document.getElementById('toggle-password');
+const passwordInput = document.getElementById('password');
+const passwordIcon = document.getElementById('password-icon');
+
+// Handle password visibility toggle
+if (togglePassword) {
+    togglePassword.addEventListener('click', function() {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            passwordIcon.classList.remove('ri-eye-line');
+            passwordIcon.classList.add('ri-eye-off-line');
+        } else {
+            passwordInput.type = 'password';
+            passwordIcon.classList.remove('ri-eye-off-line');
+            passwordIcon.classList.add('ri-eye-line');
+        }
+    });
+}
 
 // Handle login form submission
-loginForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    console.log('Login attempt:', { username, password });
-    console.log('Available users:', users);
-    const user = users.find(u => u.id === username && u.password === password);
-    console.log('Found user:', user);
-    if (user) {
-        // Show dashboard
+if (loginForm) {
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        console.log('Login attempt:', { username, password });
+        console.log('Available users:', users);
+        const user = users.find(u => u.id === username && u.password === password);
+        console.log('Found user:', user);
+        if (user) {
+            // Show dashboard
         loginPage.classList.add('hidden');
         dashboardPage.classList.remove('hidden');
         // Set user info
@@ -441,165 +588,184 @@ passwordIcon.classList.add('ri-eye-line');
 }
 });
 // PDF View Button Click
-const viewPdfButtons = document.querySelectorAll('.view-pdf-button');
-const pdfModal = document.getElementById('pdf-modal');
-const modalTitle = document.getElementById('modal-title');
-const pdfContainer = document.getElementById('pdf-container');
-const closeModal = document.getElementById('close-modal');
-viewPdfButtons.forEach(button => {
-button.addEventListener('click', function() {
-const category = this.getAttribute('data-category');
-const categoryName = getCategoryDisplayName(category);
-modalTitle.textContent = `${categoryName} Catalog`;
-const pdfViewer = document.getElementById('pdf-viewer');
-const fullscreenBtn = document.getElementById('fullscreen-btn');
+    // Initialize PDF viewer elements
+    const viewerElements = {
+        viewPdfButtons: document.querySelectorAll('.view-pdf-button'),
+        pdfModal: document.getElementById('pdf-modal'),
+        modalTitle: document.getElementById('modal-title'),
+        pdfContainer: document.getElementById('pdf-container'),
+        closeModal: document.getElementById('close-modal'),
+        pdfViewer: document.getElementById('pdf-viewer'),
+        fullscreenBtn: document.getElementById('fullscreen-btn')
+    };
 
-if (pdfDatabase[category]) {
-pdfViewer.innerHTML = `<iframe src="${pdfDatabase[category]}" class="w-full h-full border-0"></iframe>`;
-fullscreenBtn.classList.remove('hidden');
+    // Add click handlers for PDF viewing
+    viewerElements.viewPdfButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const category = this.getAttribute('data-category');
+            const categoryName = getCategoryDisplayName(category);
+            viewerElements.modalTitle.textContent = `${categoryName} Catalog`;
+            if (pdfDatabase[category]) {
+                viewerElements.pdfViewer.innerHTML = `<iframe src="${pdfDatabase[category]}" class="w-full h-full border-0"></iframe>`;
+                viewerElements.fullscreenBtn.classList.remove('hidden');
 
-// Handle fullscreen
-fullscreenBtn.onclick = function() {
-const iframe = pdfViewer.querySelector('iframe');
-if (iframe.requestFullscreen) {
-iframe.requestFullscreen();
-} else if (iframe.webkitRequestFullscreen) {
-iframe.webkitRequestFullscreen();
-} else if (iframe.msRequestFullscreen) {
-iframe.msRequestFullscreen();
-}
-};
-} else {
-pdfViewer.innerHTML = '<p class="text-gray-500">No PDF available for this category yet.</p>';
-fullscreenBtn.classList.add('hidden');
-}
-pdfModal.classList.remove('hidden');
-});
-});
-closeModal.addEventListener('click', function() {
-pdfModal.classList.add('hidden');
-});
-// Close modal when clicking outside
-pdfModal.addEventListener('click', function(e) {
-if (e.target === pdfModal) {
-pdfModal.classList.add('hidden');
-}
-});
-// PDF Upload Handling
-const pdfUploads = document.querySelectorAll('.pdf-upload');
-pdfUploads.forEach(upload => {
-upload.addEventListener('change', async function(e) {
-const category = this.getAttribute('data-category');
-const file = e.target.files[0];
-const statusElement = this.closest('form').querySelector('.upload-status');
+                // Handle fullscreen
+                viewerElements.fullscreenBtn.onclick = function() {
+                    const iframe = viewerElements.pdfViewer.querySelector('iframe');
+                    if (iframe.requestFullscreen) {
+                        iframe.requestFullscreen();
+                    } else if (iframe.webkitRequestFullscreen) {
+                        iframe.webkitRequestFullscreen();
+                    } else if (iframe.msRequestFullscreen) {
+                        iframe.msRequestFullscreen();
+                    }
+                };
+            } else {
+                viewerElements.pdfViewer.innerHTML = '<p class="text-gray-500">No PDF available for this category yet.</p>';
+                viewerElements.fullscreenBtn.classList.add('hidden');
+            }
+            pdfModal.classList.remove('hidden');
+        });
+    });
+    closeModal.addEventListener('click', function() {
+        pdfModal.classList.add('hidden');
+    });
 
-if (!file) return;
+    // Close modal when clicking outside
+    pdfModal.addEventListener('click', function(e) {
+        if (e.target === pdfModal) {
+            pdfModal.classList.add('hidden');
+        }
+    });
 
-statusElement.textContent = 'Processing...';
-statusElement.classList.remove('text-red-500', 'text-green-500');
-statusElement.classList.add('text-blue-500');
-if (file.type !== 'application/pdf') {
-statusElement.textContent = 'Error: Only PDF files are allowed.';
-statusElement.classList.add('text-red-500');
-return;
-}
-if (file.size > 500 * 1024 * 1024) { // 500MB limit
-statusElement.textContent = 'Error: File size exceeds 500MB limit.';
-statusElement.classList.add('text-red-500');
-return;
-}
-// Save the PDF file
-const formData = new FormData();
-formData.append('file', file);
-formData.append('category', category);
+    // PDF Upload Handling
+    const pdfUploads = document.querySelectorAll('.pdf-upload');
+    pdfUploads.forEach(upload => {
+        upload.addEventListener('change', async function(e) {
+            const category = this.getAttribute('data-category');
+            const file = e.target.files[0];
+            const statusElement = this.closest('form').querySelector('.upload-status');
 
-// Update status
-statusElement.textContent = 'Uploading...';
-statusElement.classList.remove('text-red-500');
-statusElement.classList.add('text-blue-500');
+            if (!file) return;
 
-try {
-const reader = new FileReader();
-await new Promise((resolve, reject) => {
-reader.onload = async () => {
-try {
-const response = await fetch(pdfStorage.getPdfPath(category), {
-method: 'PUT',
-body: reader.result
-});
+            statusElement.textContent = 'Processing...';
+            statusElement.classList.remove('text-red-500', 'text-green-500');
+            statusElement.classList.add('text-blue-500');
 
-if (response.ok) {
-pdfDatabase[category] = pdfStorage.getPdfPath(category);
-statusElement.textContent = 'Upload successful!';
-statusElement.classList.remove('text-blue-500');
-statusElement.classList.add('text-green-500');
-showNotification('success', 'Upload Complete', `${getCategoryDisplayName(category)} catalog has been updated successfully.`);
-resolve();
-} else {
-reject(new Error('Failed to save file'));
-}
-} catch (error) {
-reject(error);
-}
-};
-reader.onerror = () => reject(new Error('Failed to read file'));
-reader.readAsArrayBuffer(file);
-});
-} catch (error) {
-console.error('Error handling file:', error);
-statusElement.textContent = 'Upload failed!';
-statusElement.classList.remove('text-blue-500');
-statusElement.classList.add('text-red-500');
-showNotification('error', 'Upload Failed', 'Failed to process the PDF file.');
-}
+            if (file.type !== 'application/pdf') {
+                statusElement.textContent = 'Error: Only PDF files are allowed.';
+                statusElement.classList.add('text-red-500');
+                return;
+            }
 
-// Clear status after 3 seconds
-setTimeout(() => {
-statusElement.textContent = '';
-e.target.value = ''; // Reset file input
-}, 3000);
-});
-});
-});
-    // Get notification elements
-    const notificationToast = document.getElementById('notification-toast');
-    const notificationIcon = document.getElementById('notification-icon');
-    const notificationTitle = document.getElementById('notification-title');
-    const notificationMessage = document.getElementById('notification-message');
-    const closeNotification = document.getElementById('close-notification');
+            if (file.size > 500 * 1024 * 1024) { // 500MB limit
+                statusElement.textContent = 'Error: File size exceeds 500MB limit.';
+                statusElement.classList.add('text-red-500');
+                return;
+            }
+
+            // Save the PDF file
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('category', category);
+
+            // Update status
+            statusElement.textContent = 'Uploading...';
+            statusElement.classList.remove('text-red-500');
+            statusElement.classList.add('text-blue-500');
+
+            try {
+                const reader = new FileReader();
+                await new Promise((resolve, reject) => {
+                    reader.onload = async () => {
+                        try {
+                            const response = await fetch(pdfStorage.getPdfPath(category), {
+                                method: 'PUT',
+                                body: reader.result
+                            });
+
+                            if (response.ok) {
+                                pdfDatabase[category] = pdfStorage.getPdfPath(category);
+                                statusElement.textContent = 'Upload successful!';
+                                statusElement.classList.remove('text-blue-500');
+                                statusElement.classList.add('text-green-500');
+                                showNotification('success', 'Upload Complete', `${getCategoryDisplayName(category)} catalog has been updated successfully.`);
+                                resolve();
+                            } else {
+                                reject(new Error('Failed to save file'));
+                            }
+                        } catch (error) {
+                            reject(error);
+                        }
+                    };
+                    reader.onerror = () => reject(new Error('Failed to read file'));
+                    reader.readAsArrayBuffer(file);
+                });
+            } catch (error) {
+                console.error('Error handling file:', error);
+                statusElement.textContent = 'Upload failed!';
+                statusElement.classList.remove('text-blue-500');
+                statusElement.classList.add('text-red-500');
+                showNotification('error', 'Upload Failed', 'Failed to process the PDF file.');
+            }
+
+            // Clear status after 3 seconds
+            setTimeout(() => {
+                statusElement.textContent = '';
+                e.target.value = ''; // Reset file input
+            }, 3000);
+        });
+    });
+
+    // Initialize PDF storage system
+    const pdfStorage = {
+        getPdfPath: function(category) {
+            return `data/${category}.pdf`;
+        }
+    };
+
+    // Initialize PDF database
+    const pdfDatabase = {
+        'sofa': null,
+        'bed': null,
+        'side-table': null,
+        'center-table': null,
+        'night-table': null,
+        'artifacts': null
+    };
 
     // Function to show notifications
     function showNotification(type, title, message) {
         // Set icon and color based on type
-        notificationIcon.className = 'ri-lg ';
+        elements.notificationIcon.className = 'ri-lg ';
         switch (type) {
             case 'success':
-                notificationIcon.classList.add('ri-checkbox-circle-line', 'text-green-500');
+                elements.notificationIcon.classList.add('ri-checkbox-circle-line', 'text-green-500');
                 break;
             case 'error':
-                notificationIcon.classList.add('ri-error-warning-line', 'text-red-500');
+                elements.notificationIcon.classList.add('ri-error-warning-line', 'text-red-500');
                 break;
             case 'warning':
-                notificationIcon.classList.add('ri-alert-line', 'text-yellow-500');
+                elements.notificationIcon.classList.add('ri-alert-line', 'text-yellow-500');
                 break;
             default:
-                notificationIcon.classList.add('ri-information-line', 'text-blue-500');
+                elements.notificationIcon.classList.add('ri-information-line', 'text-blue-500');
         }
-        notificationTitle.textContent = title;
-        notificationMessage.textContent = message;
+        elements.notificationTitle.textContent = title;
+        elements.notificationMessage.textContent = message;
         // Show notification
-        notificationToast.classList.remove('translate-y-full', 'opacity-0');
+        elements.notificationToast.classList.remove('translate-y-full', 'opacity-0');
         // Auto hide after 5 seconds
         setTimeout(hideNotification, 5000);
     }
 
     // Function to hide notifications
     function hideNotification() {
-        notificationToast.classList.add('translate-y-full', 'opacity-0');
+        elements.notificationToast.classList.add('translate-y-full', 'opacity-0');
     }
 
     // Add click handler for closing notifications
-    closeNotification.addEventListener('click', hideNotification);
+    elements.closeNotification.addEventListener('click', hideNotification);
     // Helper function to generate random passwords
     function generateRandomPassword() {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
