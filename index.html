@@ -332,22 +332,24 @@ Need assistance? Contact your account manager
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-// Initialize users array with admin
-const users = [
-{ id: 'ADMIN_Ashay', password: 'Obviousinc.xyz', type: 'admin' }
-];
-// Add client credentials
-const clientCredentials = [
-    { id: 'CL0001', password: 'YWod5omp' },
-    { id: 'CL0002', password: '8Kct6RiX' },
-    { id: 'CL0003', password: 'kXwUgN1M' },
-    { id: 'CL0004', password: 'yplpz11F' },
-    { id: 'CL0005', password: 'N3gCwCRG' }
-];
-
-clientCredentials.forEach(cred => {
-    users.push({ ...cred, type: 'customer' });
-});
+    // Initialize users array and add admin
+    const users = [
+        { id: 'ADMIN_Ashay', password: 'Obviousinc.xyz', type: 'admin' }
+    ];
+    
+    // Add client credentials
+    const clientCredentials = [
+        { id: 'CL0001', password: 'YWod5omp' },
+        { id: 'CL0002', password: '8Kct6RiX' },
+        { id: 'CL0003', password: 'kXwUgN1M' },
+        { id: 'CL0004', password: 'yplpz11F' },
+        { id: 'CL0005', password: 'N3gCwCRG' }
+    ];
+    
+    // Add clients to users array
+    clientCredentials.forEach(cred => {
+        users.push({ ...cred, type: 'customer' });
+    });
 
 // PDF storage configuration
 const pdfStorage = {
@@ -379,7 +381,7 @@ const pdfDatabase = {
 'night-table': null,
 'artifacts': null
 };
-// Login form handling
+// Get DOM elements
 const loginForm = document.getElementById('login-form');
 const loginPage = document.getElementById('login-page');
 const dashboardPage = document.getElementById('dashboard-page');
@@ -387,31 +389,33 @@ const userTypeElement = document.getElementById('user-type');
 const userIdElement = document.getElementById('user-id');
 const uploadContainers = document.querySelectorAll('.upload-container');
 const logoutButton = document.getElementById('logout-button');
+
+// Handle login form submission
 loginForm.addEventListener('submit', function(e) {
-e.preventDefault();
-const username = document.getElementById('username').value;
-const password = document.getElementById('password').value;
-console.log('Login attempt:', { username, password });
-console.log('Available users:', users);
-const user = users.find(u => u.id === username && u.password === password);
-console.log('Found user:', user);
-if (user) {
-// Show dashboard
-loginPage.classList.add('hidden');
-dashboardPage.classList.remove('hidden');
-// Set user info
-userTypeElement.textContent = user.type.charAt(0).toUpperCase() + user.type.slice(1);
-userIdElement.textContent = user.id;
-// Show upload containers for admin
-if (user.type === 'admin') {
-uploadContainers.forEach(container => {
-container.classList.remove('hidden');
-});
-}
-showNotification('success', 'Login Successful', `Welcome back, ${user.id}!`);
-} else {
-showNotification('error', 'Login Failed', 'Invalid username or password.');
-}
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    console.log('Login attempt:', { username, password });
+    console.log('Available users:', users);
+    const user = users.find(u => u.id === username && u.password === password);
+    console.log('Found user:', user);
+    if (user) {
+        // Show dashboard
+        loginPage.classList.add('hidden');
+        dashboardPage.classList.remove('hidden');
+        // Set user info
+        userTypeElement.textContent = user.type.charAt(0).toUpperCase() + user.type.slice(1);
+        userIdElement.textContent = user.id;
+        // Show upload containers for admin
+        if (user.type === 'admin') {
+            uploadContainers.forEach(container => {
+                container.classList.remove('hidden');
+            });
+        }
+        showNotification('success', 'Login Successful', `Welcome back, ${user.id}!`);
+    } else {
+        showNotification('error', 'Login Failed', 'Invalid username or password.');
+    }
 });
 // Logout functionality
 logoutButton.addEventListener('click', function() {
@@ -557,59 +561,66 @@ e.target.value = ''; // Reset file input
 });
 });
 });
-// Notification System
-const notificationToast = document.getElementById('notification-toast');
-const notificationIcon = document.getElementById('notification-icon');
-const notificationTitle = document.getElementById('notification-title');
-const notificationMessage = document.getElementById('notification-message');
-const closeNotification = document.getElementById('close-notification');
-function showNotification(type, title, message) {
-// Set icon and color based on type
-notificationIcon.className = 'ri-lg ';
-switch (type) {
-case 'success':
-notificationIcon.classList.add('ri-checkbox-circle-line', 'text-green-500');
-break;
-case 'error':
-notificationIcon.classList.add('ri-error-warning-line', 'text-red-500');
-break;
-case 'warning':
-notificationIcon.classList.add('ri-alert-line', 'text-yellow-500');
-break;
-default:
-notificationIcon.classList.add('ri-information-line', 'text-blue-500');
-}
-notificationTitle.textContent = title;
-notificationMessage.textContent = message;
-// Show notification
-notificationToast.classList.remove('translate-y-full', 'opacity-0');
-// Auto hide after 5 seconds
-setTimeout(hideNotification, 5000);
-}
-function hideNotification() {
-notificationToast.classList.add('translate-y-full', 'opacity-0');
-}
-closeNotification.addEventListener('click', hideNotification);
-// Helper Functions
-function generateRandomPassword() {
-const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-let password = '';
-for (let i = 0; i < 8; i++) {
-password += chars.charAt(Math.floor(Math.random() * chars.length));
-}
-return password;
-}
-function getCategoryDisplayName(category) {
-    switch (category) {
-        case 'sofa': return 'Sofa';
-        case 'bed': return 'Bed';
-        case 'side-table': return 'Side Table';
-        case 'center-table': return 'Center Table';
-        case 'night-table': return 'Night Table';
-        case 'artifacts': return 'Artifacts';
-        default: return category;
+    // Get notification elements
+    const notificationToast = document.getElementById('notification-toast');
+    const notificationIcon = document.getElementById('notification-icon');
+    const notificationTitle = document.getElementById('notification-title');
+    const notificationMessage = document.getElementById('notification-message');
+    const closeNotification = document.getElementById('close-notification');
+
+    // Function to show notifications
+    function showNotification(type, title, message) {
+        // Set icon and color based on type
+        notificationIcon.className = 'ri-lg ';
+        switch (type) {
+            case 'success':
+                notificationIcon.classList.add('ri-checkbox-circle-line', 'text-green-500');
+                break;
+            case 'error':
+                notificationIcon.classList.add('ri-error-warning-line', 'text-red-500');
+                break;
+            case 'warning':
+                notificationIcon.classList.add('ri-alert-line', 'text-yellow-500');
+                break;
+            default:
+                notificationIcon.classList.add('ri-information-line', 'text-blue-500');
+        }
+        notificationTitle.textContent = title;
+        notificationMessage.textContent = message;
+        // Show notification
+        notificationToast.classList.remove('translate-y-full', 'opacity-0');
+        // Auto hide after 5 seconds
+        setTimeout(hideNotification, 5000);
     }
-}
+
+    // Function to hide notifications
+    function hideNotification() {
+        notificationToast.classList.add('translate-y-full', 'opacity-0');
+    }
+
+    // Add click handler for closing notifications
+    closeNotification.addEventListener('click', hideNotification);
+    // Helper function to generate random passwords
+    function generateRandomPassword() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+        let password = '';
+        for (let i = 0; i < 8; i++) {
+            password += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return password;
+    }
+    // Helper function to get display name for categories
+    function getCategoryDisplayName(category) {
+        switch (category) {
+            case 'sofa': return 'Sofa';
+            case 'bed': return 'Bed';
+            case 'side-table': return 'Side Table';
+            case 'center-table': return 'Center Table';
+            case 'night-table': return 'Night Table';
+            case 'artifacts': return 'Artifacts';
+            default: return category;
+        }
+    }
 });
 </script>
 </body>
